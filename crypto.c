@@ -172,7 +172,7 @@ CRYPTO_RESULT md5(MD5_RESULT_TYPE type, const unsigned char in[],unsigned char *
 }
 
 
-int main_test() {
+int main() {
 
 	unsigned char* res, *res2;
 	int len;
@@ -267,4 +267,3 @@ int main_test() {
 	
     return 0;
 }
-#include "des.h"
