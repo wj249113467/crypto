@@ -4,6 +4,7 @@
 #include "crypto.h"
 #include "des.h"
 #include "md5.h"
+#include "base64.h"
 
 
 static void printHex(unsigned char *data , int len){
@@ -35,10 +36,9 @@ static unsigned char* unpack_padding_pkcs5(const unsigned char in[], int *len){
 		*len = 0;
 		return NULL;
 	}
-	*len = *len + paddNum;
+	*len = *len - paddNum;
 	
 	unsigned char *data = (unsigned char *)malloc(*len);
-	int i = 0;
     memset(data, 0, *len);
     memcpy(data, in, *len );
 	return data;
@@ -89,7 +89,6 @@ CRYPTO_RESULT des_encode(CRYPTO_TYPE type, const unsigned char key[], unsigned c
 	free(data);
 	return RESULT_OK;
 }
-
 
 
 CRYPTO_RESULT des_decode(CRYPTO_TYPE type, const unsigned char key[], unsigned char keyLen, const unsigned char vi[8], const unsigned char in[],unsigned char **out,int *len){
@@ -172,6 +171,45 @@ CRYPTO_RESULT md5(MD5_RESULT_TYPE type, const unsigned char in[],unsigned char *
 }
 
 
+CRYPTO_RESULT base64_en(const unsigned char in[],unsigned char **out,int *len){
+	unsigned char *encode_out;
+	encode_out = malloc(BASE64_ENCODE_OUT_SIZE(*len));
+	*len = base64_encode(in, *len, encode_out);
+	if(*len > 0){
+		*out = malloc(*len + 1);
+		memset(*out,0,*len + 1);
+		memcpy(*out,encode_out,*len);
+		free(encode_out);
+		return RESULT_OK;
+	}else{
+		*out = malloc(1);
+		*out[0] = 0;
+		*len = 0;
+		free(encode_out);
+		return RESULT_ERROR;
+	}
+}
+
+CRYPTO_RESULT base64_de(const unsigned char in[],unsigned char **out,int *len){
+	unsigned char *decode_out;
+	decode_out = malloc(BASE64_DECODE_OUT_SIZE(*len));
+	*len = base64_decode(in, *len, decode_out);
+	if(*len > 0){
+		*out = malloc(*len);
+		memset(*out,0,*len);
+		memcpy(*out,decode_out,*len);
+		free(decode_out);
+		return RESULT_OK;
+	}else{
+		*out = malloc(1);
+		*out[0] = 0;
+		*len = 0;
+		free(decode_out);
+		return RESULT_ERROR;
+	}
+}
+
+#if 1
 int main() {
 
 	unsigned char* res, *res2;
@@ -267,3 +305,4 @@ int main() {
 	
     return 0;
 }
+#endif

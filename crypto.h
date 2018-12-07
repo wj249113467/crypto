@@ -65,6 +65,27 @@ CRYPTO_RESULT des_decode(CRYPTO_TYPE type, const unsigned char key[], unsigned c
 
 CRYPTO_RESULT md5(MD5_RESULT_TYPE type, const unsigned char in[],unsigned char **out,int *len);
 
+/*
+	BASE64编码
+	type[in]:结果方式
+	in[in] 待编码的数据
+	out[out] 编码后数据(需要free)
+	len[in/out] 传入编码要数据长度，传出编码后数据长度
+	return 是否成功
+*/
+
+CRYPTO_RESULT base64_en(const unsigned char in[],unsigned char **out,int *len);
+
+/*
+	BASE64解码
+	type[in]:结果方式
+	in[in] 待解码的数据
+	out[out] 解码后数据(需要free)
+	len[in/out] 传入编码要数据长度，传出编码后数据长度
+	return 是否成功
+*/
+
+CRYPTO_RESULT base64_de(const unsigned char in[],unsigned char **out,int *len);
 
 
 #ifdef __cplusplus
