@@ -13,7 +13,7 @@ typedef enum{
 typedef enum{
 	RESULT_TYPE_BIN =0,//bin类型
 	RESULT_TYPE_STR_UPPER,//HEX大写字符串
-	RESULT_TYPE_STR_LOWER,//HEX大写字符串
+	RESULT_TYPE_STR_LOWER,//HEX小写字符串
 }MD5_RESULT_TYPE;
 
 
